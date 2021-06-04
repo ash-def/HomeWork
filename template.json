@@ -34,6 +34,53 @@
     "variables": {},
     "resources": [
         {
+        "name": "Myfunc",
+        "type": "Microsoft.Web/sites",
+        "apiVersion": "2018-11-01",
+        "location": "[resourceGroup().location]",
+        "kind": "functionapp",
+        "dependsOn": [
+            "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_servervm581_name'))]",
+            "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_destination2021_name'))]",
+            "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_source2021_name'))]"
+        ],
+        "properties": {
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'serverFarmName')]",
+            "siteConfig": {
+                "appSettings": [
+                    {
+                        "name": "AzureWebJobsDashboard",
+                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccounts_source2021_name'), ';AccountKey=Microsoft.Storage', listKeys('storageAccountID','2015-05-01-preview').key1)]"
+                    },
+                    {
+                        "name": "AzureWebJobsStorage",
+                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccounts_destination2021_name'), ';AccountKey=Microsoft.Storage', listKeys('storageAccountID','2015-05-01-preview').key1)]"
+                    },
+                    {
+                        "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', 'storageAccountName', ';AccountKey=Microsoft.Storage', listKeys('storageAccountID','2015-05-01-preview').key1)]"
+                    },
+                    {
+                        "name": "WEBSITE_CONTENTSHARE",
+                        "value": "[toLower('Myfunc')]"
+                    },
+                    {
+                        "name": "FUNCTIONS_EXTENSION_VERSION",
+                        "value": "~2"
+                    },
+                    {
+                        "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                        "value": "[reference(resourceId('microsoft.insights/components/', 'applicationInsightsName'), '2015-05-01').InstrumentationKey]"
+                    },
+                    {
+                        "name": "FUNCTIONS_WORKER_RUNTIME",
+                        "value": "dotnet"
+                    }
+                ]
+            }
+        }
+    },
+        {
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2020-11-01",
             "name": "[parameters('networkSecurityGroups_serverVM_nsg_name')]",
