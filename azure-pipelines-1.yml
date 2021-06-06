@@ -1,0 +1,29 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: serverVM
+
+steps:
+- script: 
+- task: AzureFileCopy@4
+  inputs:
+    SourcePath: 'https://destination2021.blob.core.windows.net/containerb'
+    Destination: 'AzureVMs'
+    storage: '/subscriptions/a8108c2b-496c-424d-8347-ecc8afb6384c/resourceGroups/HomeWork'
+    resourceGroup: 'HomeWork'
+    vmsAdminUserName: 'asher'
+    vmsAdminPassword: 'ImGonnaM@ke!t202!'
+    TargetPath: '/subscriptions/a8108c2b-496c-424d-8347-ecc8afb6384c/resourceGroups/HomeWork/providers/Microsoft.Storage/storageAccounts/destination2021'
+    CopyFilesInParallel: false
+
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
