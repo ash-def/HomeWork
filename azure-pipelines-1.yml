@@ -11,8 +11,9 @@ pool:
 
 steps:
 - script: 
-- task: AzureFileCopy@4
+- task: AzureFileCopy@4 
   inputs:
+    azureSubscription:
     SourcePath: 'https://destination2021.blob.core.windows.net/containerb'
     Destination: 'AzureVMs'
     storage: '/subscriptions/a8108c2b-496c-424d-8347-ecc8afb6384c/resourceGroups/HomeWork'
@@ -20,10 +21,12 @@ steps:
     vmsAdminUserName: 'asher'
     vmsAdminPassword: 'ImGonnaM@ke!t202!'
     TargetPath: '/subscriptions/a8108c2b-496c-424d-8347-ecc8afb6384c/resourceGroups/HomeWork/providers/Microsoft.Storage/storageAccounts/destination2021'
-    CopyFilesInParallel: false
+    CopyFilesInParallel: true
 
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+variables:
+  staticVar: 'my value' # static variable
+  compileVar: ${{ variables.staticVar }} # compile time expression
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')] # runtime expression
+
+
