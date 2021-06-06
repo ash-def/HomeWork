@@ -1,4 +1,13 @@
 # Starter pipeline
+- task: AzureFileCopy@4
+  inputs:
+    SourcePath: '/subscriptions/a8108c2b-496c-424d-8347-ecc8afb6384c/resourceGroups/HomeWork'
+    Destination: 'AzureVMs'
+    storage: 'a8108c2b-496c-424d-8347-ecc8afb6384c'
+    resourceGroup: 'a8108c2b-496c-424d-8347-ecc8afb6384c'
+    vmsAdminUserName: 'asher'
+    vmsAdminPassword: 'ImGonnaM@ke!t202!'
+    TargetPath: 'https://destination2021.blob.core.windows.net/containerb'
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
